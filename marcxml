@@ -76,19 +76,14 @@ where [options] are:
   opt "with-limit", "Limit size of output", :short => '-l', :type => :integer, :default => 50000
 end
 
-fx = Dir[File.dirname(__FILE__) + '/*.rb']
-fx.each do |file| 
+Dir[File.dirname(__FILE__) + '/*.rb'].each do |file| 
   require "./" + file 
 end
 
-if opts[:muscat]
-  if !ENV['ORACLE_HOST']
-    puts "You are using this program with the `--muscat`-flag; please be sure to have configured ORACLE-connection by enviroment!".yellow
-  end
-  Dir[File.dirname(__FILE__) + '/lib/muscat/*.rb'].each do |file| 
-    require file 
-  end
+Dir[Dir.pwd + '/bin/*.rb'].each do |file| 
+  require file 
 end
+
 
 Trollop::die :infile, "must exist" if !opts[:infile]
 if (opts[:transform] || opts[:filter]) && !opts[:config]
